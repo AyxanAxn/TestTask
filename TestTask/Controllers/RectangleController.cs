@@ -15,11 +15,13 @@ namespace TestTask.Controllers
             _rectangleRepository = rectangleRepository;
         }
 
-        [HttpGet("intersections")]
+        [HttpGet("Intersections")]
         public async Task<ActionResult<List<Rectangle>>> GetIntersectingRectangles(double startX, double startY, double endX, double endY)
         {
             await _rectangleRepository.GenerateMockRectangles();
             var rectangles = await _rectangleRepository.GetIntersectingRectanglesAsync(startX, startY, endX, endY);
+            if (rectangles.Count == 0)
+                return NotFound();
             return Ok(rectangles);
         }
     }

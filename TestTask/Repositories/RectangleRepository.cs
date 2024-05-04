@@ -9,10 +9,8 @@ namespace TestTask.Repositories
 
         private readonly DBContext _context;
 
-        public RectangleRepository(DBContext context)
-        {
+        public RectangleRepository(DBContext context) =>
             _context = context;
-        }
 
         public async Task<List<Rectangle>> GetIntersectingRectanglesAsync(double startX, double startY, double endX, double endY)
         {
@@ -24,13 +22,11 @@ namespace TestTask.Repositories
                 .ToListAsync();
         }
 
-
-
         public async Task GenerateMockRectangles()
         {
 
             var data = await _context.Rectangles.FirstOrDefaultAsync();
-            if (data != null) return;
+            if (data is not null) return;
             var rectangles = new List<Rectangle>
             {
                 new Rectangle { X = 0, Y = 0, Width = 5, Height = 5 },
