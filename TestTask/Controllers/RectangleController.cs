@@ -1,0 +1,26 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using TestTask.Models;
+using TestTask.Repositories;
+
+namespace TestTask.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class RectangleController : ControllerBase
+    {
+        private readonly IRectangleRepository _rectangleRepository;
+
+        public RectangleController(IRectangleRepository rectangleRepository)
+        {
+            _rectangleRepository = rectangleRepository;
+        }
+
+        [HttpGet("intersections")]
+        public async Task<ActionResult<List<Rectangle>>> GetIntersectingRectangles(double startX, double startY, double endX, double endY)
+        {
+            await _rectangleRepository.GenerateMockRectangles();
+            var rectangles = await _rectangleRepository.GetIntersectingRectanglesAsync(startX, startY, endX, endY);
+            return Ok(rectangles);
+        }
+    }
+}
